@@ -1,4 +1,4 @@
-# doris_ansible
+# Doris_Ansible
 Auto create and upgrade doris cluster
 
 # 玩转Doris_Ansible
@@ -134,7 +134,7 @@ Auto create and upgrade doris cluster
     ansible-playbook upgrade.yml
 
 ### 使用示例
-
+* 使用的为POLO的安装包，需要注意的是本机的jdk和待更新的包的jdk版本
 #### 环境参数
 
 * 节点规划
