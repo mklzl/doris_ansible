@@ -1,6 +1,6 @@
 # Doris_Ansible
-Auto create and upgrade doris cluster
 
+## One-click deployment, upgrade, degrade, start, stop, and expand the capacity of the highly available Doris cluster
 # 玩转Doris_Ansible
 
 ## step 1 : 下载安装ansible
