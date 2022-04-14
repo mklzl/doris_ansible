@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ cluster }}.sr_hosts"
+- hosts: "{{ cluster }}.doris_hosts"
   remote_user: root
   vars_files:
     - ./setup_vars.yml
