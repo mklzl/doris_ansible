@@ -17,38 +17,38 @@
 
 * vi /etc/ansible/hosts
 
-        ## 集群参与的机器ip
-        [doris_hosts]
-        192.168.1.239
-        192.168.1.241
-        192.168.1.243
-
-        ##fe所在机器的ip
-        [frontends]
-        192.168.1.239
-        192.168.1.241
-        192.168.1.243
-
-        ##master节点所在的ip
-        [master]
-        192.168.1.241
-
-        ##follower所在节点的ip
-        [follower]
-        192.168.1.239
-        192.168.1.243
-
-        ##be所在节点的ip
-        [backends]
-        192.168.1.239
-        192.168.1.241
-        192.168.1.243
-        
-        ##broker节点所在的ip
-        [brokers]
-        192.168.1.239
-        192.168.1.241
-        192.168.1.243
+      ## 集群cluster1中参与的机器ip
+      [cluster1.doris_hosts]
+      192.168.1.239
+      192.168.1.241
+      192.168.1.243
+    
+      ##集群cluster1中fe所在机器的ip
+      [cluster1.frontends]
+      192.168.1.239
+      192.168.1.241
+      192.168.1.243
+    
+      ##集群cluster1中master节点所在的ip
+      [cluster1.master]
+      192.168.1.241
+    
+      ##集群cluster1中follower所在节点的ip
+      [cluster1.follower]
+      192.168.1.239
+      192.168.1.243
+    
+      ##集群cluster1中be所在节点的ip
+      [cluster1.backends]
+      192.168.1.239
+      192.168.1.241
+      192.168.1.243
+      
+      ##集群cluster1中broker节点所在的ip
+      [cluster1.brokers]
+      192.168.1.239
+      192.168.1.241
+      192.168.1.243
 
 ### 编辑初始化安装机器配置变量文件
 
@@ -83,31 +83,37 @@
       java_home: /usr/java/jdk1.8.0_131
       # master所在的机器ip
       master: 192.168.1.241
+## step 4 : 编辑集群配置文件
 
-## step 4 : 启动初始化集群
+    ---
+    follower: [192.168.1.239,192.168.1.243]
+    backends: [192.168.1.239,192.168.1.241,192.168.1.243]
+    brokers: [192.168.1.239,192.168.1.241,192.168.1.243]
+        
 
-      ansible-playbook setup.yml
+## step 5 : 启动初始化集群
 
-## step 5 : 添加集群角色
+      ansible-playbook -e "cluster=cluster1" ./core/setup.yml
 
-    ansible-playbook add_roles.yml
+## step 6 : 添加集群角色
 
-## step 6 : 查看集群状态
+    ansible-playbook -e "cluster=cluster1" ./core/add_roles.yml
+
+## step 7 : 查看集群状态
 
     可以根据自己配置的具体情况，登录集群，通过show frontends;show backends;show broker;查看集群的搭建情况
 
-## step 7 : 启停集群
+## step 8 : 启停集群
 
     #stop all
-    ansible-playbook stop_all.yml
+    ansible-playbook -e "cluster=cluster1" ./core/stop_all.yml
     #start all
-    ansible-playbook start_all.yml
-
-## step 8: 升级或者回滚集群
+    ansible-playbook -e "cluster=cluster1" ./core/start_all.yml
+## step 9: 升级或者回滚集群
 
 ### 编辑升级回滚所需配置文件
 
-* vi upgrade_vars.yml
+* vi ./conf/upgrade_vars.yml
 
       ---
       #原集群be所在路径
@@ -131,10 +137,15 @@
 
 ### 执行升级或者回滚
 
-    ansible-playbook upgrade.yml
+    ansible-playbook -e "cluster=cluster1" ./core/upgrade.yml
+
+
+
 
 ### 使用示例
 * 使用的为POLO的安装包，需要注意的是本机的jdk和待更新的包的jdk版本
+#### cluster1环境参数
+ （如有多个集群，请在对应配置中配置好对应的cluster配置，host中clusterX应当于配置文件clusterX.yml和启动命令中的clusterX保存一致）
 #### 环境参数
 
 * 节点规划
@@ -177,31 +188,32 @@
 
 * 编辑主机组
 
-      vi /etc/ansible/hosts 添加以下内容
+    vi /etc/ansible/hosts 添加以下内容
 
-      [doris_hosts]
-      192.168.1.239
-      192.168.1.241
-      192.168.1.243
-
-      [frontends]
+      [cluster1.doris_hosts]
       192.168.1.239
       192.168.1.241
       192.168.1.243
       
-      [master]
-      192.168.1.241
       
-      [follower]
-      192.168.1.239
-      192.168.1.243
-      
-      [backends]
+      [cluster1.frontends]
       192.168.1.239
       192.168.1.241
       192.168.1.243
-
-      [brokers]
+      
+      [cluster1.master]
+      192.168.1.241
+      
+      [cluster1.follower]
+      192.168.1.239
+      192.168.1.243
+      [cluster1.backends]
+      192.168.1.239
+      192.168.1.241
+      192.168.1.243
+      
+      
+      [cluster1.brokers]
       192.168.1.239
       192.168.1.241
       192.168.1.243
@@ -225,13 +237,20 @@
       broker_path: /home/doris_ansible/PALO-0.15.1-rc09-binary/apache_hdfs_broker
       java_home: /usr/java/jdk1.8.0_131
       master: 192.168.1.241
+      
+      vi ./conf/cluster1.yml
+
+      ---
+      follower: [192.168.1.239,192.168.1.243]
+      backends: [192.168.1.239,192.168.1.241,192.168.1.243]
+      brokers: [192.168.1.239,192.168.1.241,192.168.1.243]
 
 * 启动初始化操作
 
-      ansible-playbook setup.yml
+      ansible-playbook -e "cluster=cluster1"  setup.yml
 * 添加角色
 
-      ansible-playbook add_roles.yml
+      ansible-playbook -e "cluster=cluster1"  add_roles.yml
 
 #### 集群升降级
 * 前置条件
@@ -257,8 +276,8 @@
 
 * 执行升降级操作
 
-      ansible-playbook upgrade.yml
-
+      ansible-playbook -e "cluster=cluster1"  upgrade.yml
+      
 * 查看集群状态
 
   通过show frontends;show backends;show broker;查看版本信息
