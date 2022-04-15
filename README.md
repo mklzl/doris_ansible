@@ -147,7 +147,7 @@ Easy to use Doirs cluster operation and maintenance tool
 
 ## step 9: 升级或者回滚集群
 
-### 编辑升级回滚所需配置文件
+### 编辑升级回滚所需配置文件(需要注意java 版本问题，请确保编译使用的版本和运行集群的java版本一致)
 
 * vi ./conf/upgrade_vars.yml
 
