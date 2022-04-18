@@ -153,13 +153,13 @@ Easy to use Doirs cluster operation and maintenance tool
 
       ---
       #需要回滚或者升级的压缩包所在路径
-      newsr_filepath: /home/doris_ansible/PALO-0.15.3-release-binary.tar.gz
+      newdoris_filepath: /home/doris_ansible/PALO-0.15.3-release-binary.tar.gz
 
       #压缩包解压路径
-      newsr_destpath: /home/doris_ansible
+      newdoris_destpath: /home/doris_ansible
       
       #解压后的sr_home
-      newsr_home: /home/doris_ansible/PALO-0.15.3-release-binary
+      newdoris_home: /home/doris_ansible/PALO-0.15.3-release-binary
       
       #java_home所在路径
       java_home: /usr/java/jdk1.8.0_131
