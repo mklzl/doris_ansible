@@ -158,7 +158,7 @@ Easy to use Doirs cluster operation and maintenance tool
       #压缩包解压路径
       newdoris_destpath: /home/doris_ansible
       
-      #解压后的sr_home
+      #解压后的doris_home
       newdoris_home: /home/doris_ansible/PALO-0.15.3-release-binary
       
       #java_home所在路径
