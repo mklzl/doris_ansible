@@ -7,7 +7,7 @@
   tasks:
   - name: scale {{ action }} be process
     unarchive: 
-      src: "{{ sr_filepath }}"
+      src: "{{ doris_filepath }}"
       dest: "{{ dest_filepath }}"
       copy: yes
     when: action == "out"
