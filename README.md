@@ -190,7 +190,7 @@ Easy to use Doirs cluster operation and maintenance tool
 * vi ./conf/scale_be_vars.yml
  
         ---
-        ## 要进行扩缩容的fe
+        ## 要进行扩缩容的be
         backends: 192.168.1.239
 * vi ./conf/scale_broker_vars.yml
 
