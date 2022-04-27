@@ -124,28 +124,30 @@ Easy to use Doirs cluster operation and maintenance tool
       ##（增加配置,在对应集群配置文件中指定该集群的master）
       master: 192.168.1.241
 
+## step 5 : 检查机器环境（免密、防火墙、java环境、mysql-client、be是否具有avx2）
 
+      ansible-playbook -e "cluster=cluster1" ./core/check_env.yml
 
-## step 5 : 启动初始化集群
+## step 6 : 启动初始化集群
 
       ansible-playbook -e "cluster=cluster1" ./core/setup.yml
 
-## step 6 : 添加集群角色
+## step 7 : 添加集群角色
 
     ansible-playbook -e "cluster=cluster1" ./core/add_roles.yml
 
-## step 7 : 查看集群状态
+## step 8 : 查看集群状态
 
     可以根据自己配置的具体情况，登录集群，通过show frontends;show backends;show broker;查看集群的搭建情况
 
-## step 8 : 启停集群
+## step 9 : 启停集群
 
     #stop all
     ansible-playbook -e "cluster=cluster1" ./core/stop_all.yml
     #start all
     ansible-playbook -e "cluster=cluster1" ./core/start_all.yml
 
-## step 9: 升级或者回滚集群
+## step 10: 升级或者回滚集群
 
 ### 编辑升级回滚所需配置文件(需要注意java 版本问题，请确保编译使用的版本和运行集群的java版本一致)
 
@@ -168,7 +170,7 @@ Easy to use Doirs cluster operation and maintenance tool
 
     ansible-playbook -e "cluster=cluster1" ./core/upgrade.yml
     
-## step 10 : 扩缩容集群
+## step 11 : 扩缩容集群
 
 ### 编辑配置文件
 
