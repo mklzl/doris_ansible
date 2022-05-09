@@ -123,6 +123,11 @@ Easy to use Doirs cluster operation and maintenance tool
       
       ##（增加配置,在对应集群配置文件中指定该集群的master）
       master: 192.168.1.241
+      ##（增加配置,在对应集群配置文件中指定fe节点的ip网段）
+      fe_ip_conf: 192.168.1.0/24
+      ##（增加配置,在对应集群配置文件中指定be节点的ip网段）
+      be_ip_conf: 192.168.1.0/24
+
 
 ## step 5 : 检查机器环境（免密、防火墙、java环境、mysql-client、be是否具有avx2）
 
