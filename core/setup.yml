@@ -38,11 +38,20 @@
       path: "{{ doris_home }}/apache_hdfs_broker/bin/start_broker.sh"
       insertafter: "# java"
       line: "export JAVA_HOME={{ java_home }}"
+
 - hosts: "{{ cluster }}.master"
   remote_user: root
   vars_files: 
     - ../conf/setup_vars.yml
+    - ../conf/{{ cluster }}.yml
   tasks:
+    - name: module
+      shell: echo "priority_networks=x"
+      register: Fe
+    - name: add fe.conf
+      lineinfile:
+        dest: "{{ fe_conf_path }}"
+        line: "{{ Fe.stdout | replace('x',feconf) }}"
     - name: start master
       shell:
         cmd: 
@@ -54,6 +63,13 @@
     - ../conf/setup_vars.yml
     - ../conf/{{ cluster }}.yml
   tasks:
+    - name: module
+      shell: echo "priority_networks=x"
+      register: Fe
+    - name: add fe.conf
+      lineinfile:
+        dest: "{{ fe_conf_path }}"
+        line: "{{ Fe.stdout | replace('x',feconf) }}"
     - name: start follower
       shell:
         cmd: "sh {{ doris_home }}/fe/bin/start_fe.sh --helper {{ master }}:{{ edit_log_port }} --daemon"
@@ -62,14 +78,24 @@
   remote_user: root
   vars_files:
     - ../conf/setup_vars.yml
+    - ../conf/{{ cluster }}.yml
   tasks:
+    - name: module
+      shell: echo "priority_networks=x"
+      register: Be
+    - name: add be.conf
+      lineinfile:
+        dest: "{{ be_conf_path }}"
+        line: "{{ Fe.stdout | replace('x',beconf) }}"
     - name: start all backends
       shell:
         cmd: "sh {{ doris_home }}/be/bin/start_be.sh --daemon"
+
 - hosts: "{{ cluster }}.brokers"
   remote_user: root
   vars_files:
     - ../conf/setup_vars.yml
+    - ../conf/{{ cluster }}.yml
   tasks:
     - name: start all brokers
       shell:
